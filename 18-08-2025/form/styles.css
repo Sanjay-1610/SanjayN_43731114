@@ -1,0 +1,44 @@
+h1{
+    text-align: center;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container{
+    display: flex;
+    width: 350px;
+    height: 350px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(143, 140, 140, 0.363);
+}
+
+form{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+
+button{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-top: 20px;
+}
+
+table{
+    border: 1px solid black;
+    padding: 5px;
+    border-collapse: collapse;
+
+}
+
+td , th{
+    border: 1px solid black;
+    padding: 5px;
+}
