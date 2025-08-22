@@ -1,0 +1,40 @@
+create database staff;
+use staff;
+create table eee(id int , name varchar(20), gender varchar(10),age int, course varchar(20));
+
+insert into eee values
+( 1, 'sanjay', 'male',19,'AI'),
+( 2, 'tamil', 'male',20,'AI'),
+( 3, 'manoj', 'male',19,'EEE'),
+( 4, 'amrith', 'male',20,'ECE'),
+( 5, 'nikhil', 'male',19,'AI'),
+( 6, 'shiva', 'male',20,'CSE')
+;
+start transaction;
+savepoint a;
+
+delete from eee where age = 20;
+rollback to a;
+
+select * from eee;
+truncate table eee;
+
+alter table ece add state varchar(40);
+
+alter table ece add (city varchar(40),address varchar(50));
+
+alter table ece drop column address;
+
+update ece set age = age + 1; 
+
+alter table ece drop column city, drop column state;
+
+alter table ece add(country varchar(30) default 'india');
+
+desc ece;
+
+alter table ece rename column name to sname;
+
+delete from ece where email = 'tamilhr';
+
+truncate ece;
