@@ -1,0 +1,49 @@
+show databases;
+create database placement;
+use placement;
+create table cse(
+id int,
+name varchar(30),
+email varchar(30),
+gender varchar(10),
+age int
+);
+desc cse;
+insert into cse values(
+1,
+'sanjay',
+'sanjayhr',
+'male',
+19
+);
+select * from cse;
+
+create table ece(
+id int,
+name varchar(30),
+email varchar(30),
+gender varchar(10),
+age int
+);
+
+insert into ece values(
+1,
+'sanjay',
+'sanjayhr',
+'male',
+19
+);
+delete from ece where id = 1;
+select * from ece;
+update ece set name='tamil' where id = 1;
+select * from ece;
+
+show tables;
+
+alter table ece add state varchar(40);
+
+alter table ece add (city varchar(40),address varchar(50));
+
+alter table ece drop column address;
+
+alter table ece drop column city, drop column state;
