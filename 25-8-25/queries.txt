@@ -1,0 +1,132 @@
+# First database 
+
+
+show databases;
+use placement;
+
+create table Category_(
+cid int primary key,
+cname varchar(30),
+cdesc varchar(40)
+);
+
+create table Product_(
+pid int primary key,
+pname varchar(30),
+cid int not null,
+foreign key(cid) references category_ (cid)  #FOREIGN KEY ADDED
+on delete cascade  #CASCADE FOR DELETE ADDED
+on update cascade  #CASCADE FOR UPDATE
+);
+
+drop table product_;
+drop  table category_;
+
+desc product_;
+desc category_;
+
+insert into category_ values ( 1,'Tech','About tech products added'),(2,'Non-tech','Non tech things'),(3,'Books','About educational Things'),(4,'Food','About Eatables');
+select * from category_;
+insert into product_ values (1,'Oneplus 11R',1),(2,'Pizza',4),(3,'LOST SOUL BOOKS',3),(4,'Cleaning MOP',2),(5,'Realme 12 5G',1),(6,'Mutton Biriyani',4),(7,'Mat',2);
+select * from product_;
+
+ delete from category_ where cid=1;
+ select * from category_; 
+ select * from product_; #WORKS Cid =1 Gets deleted on both tables ..
+ 
+ update category_ set cid=1 where cid=4;
+ select * from category_;
+ select * from product_; #WORKS Cid =4 Gets updated on both tables ..
+ 
+  create table College(
+  cid int primary key,
+  cname varchar(30) not null
+  );
+  
+   create table department(
+  did int primary key,
+  dname varchar(30) not null,
+  cid int ,
+  foreign key(cid) references college (cid) #foreign key for table college and department
+  on update cascade
+  on delete cascade
+  );
+  
+   create table student1(
+  sid int primary key,
+  sname varchar(30) not null,
+  did int ,
+  foreign key(did) references department (did) #foreign key for table department and student1
+  on update cascade
+  on delete cascade
+  );
+  
+  desc college;
+  desc department;
+  desc student1;
+  
+  insert into college values 
+  ( 111,'Sathyabama University'),
+  ( 222,'St.Joseph College'),
+  ( 333,'Panimalar University'),
+  ( 444,'Anna University');
+  select * from college;
+  
+  insert into department values 
+  ( 1,'CSE',111),
+  ( 2,'EEE',111),
+  ( 3,'MBA ',222),
+  ( 4,'ECE',333),
+  ( 5,'AI',333);
+  select * from department;
+  
+  insert into student1 values 
+  ( 1001,'Sanjay',1),
+  ( 1002,'Tamizh',1),
+  ( 1003,'Harjith',5),
+  ( 1004,'Amrit',4),
+  ( 1005,'Arjun',3);
+  select * from student1;
+
+
+# Second Database
+
+CREATE DATABASE ORG123;
+SHOW DATABASES;
+USE ORG123;
+
+CREATE TABLE Worker (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+
+INSERT INTO Worker 
+	(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR'),
+		(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+		(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+		(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin'),
+		(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin'),
+		(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account'),
+		(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account'),
+		(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+        
+select salary as income from worker;
+select first_name as name from worker;
+
+select * from worker where last_name like '_i_%';
+select * from worker where first_name like '_a_%';
+select * from worker where department like 'ad_%';
+
+create view amount as select * from worker where salary >= 300000;
+select * from amount;
+
+drop view amount ;
+
+
+
+
