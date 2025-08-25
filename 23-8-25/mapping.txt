@@ -1,0 +1,70 @@
+show databases;
+use staff;
+create table info (
+id int not null,
+name varchar(30) not null,
+age int not null,
+course varchar(20) not null,
+gender varchar(10));
+
+alter table info add unique(id); # adding unique constraint 
+alter table info modify gender varchar(20) not null; # adding not null
+
+alter table info modify id int null; # changing not null to null using modify
+alter table info drop index id; # removing unique constraint 
+
+desc info;
+SHOW INDEXES FROM info;
+
+drop table info;
+alter table info add primary key(id); # adding primary key 
+
+insert into info values(1,'sanjay','19','cse','male'),  # inserting values into the table 
+(2,'thamil','19','cse','male'), 
+(3,'praveen','17','bca','male'),
+(4,'naveen','19','bca','male'),
+(5,'manoj','19','eee','male'),
+(6,'saravana','20','ece','male');
+update info set age = 20 where id = 3; # updating a value using id
+select * from info;
+alter table info add check(age>=18); #check constraint 
+insert into info values(7,'jay','10','cse','male'); #can be added because of check constraint
+
+
+create table category (
+cid int primary key,
+cname varchar(20) not null);
+
+create table product(
+pid int primary key,
+pname varchar(30) not null,
+cid int not null,
+foreign key(cid) references category (cid)
+ );
+
+select * from category;
+select * from product;
+
+insert into category values(100,'cloth'),
+(101,'bag'),
+(102,'food'),
+(103,'pet'),
+(104,'electronics');
+
+insert into product values(1,'tshirt',100),
+(2,'jean',100),
+(3,'shirt',100),
+(4,'handbag',101),
+(5,'maggi',102),
+(6,'dog food',103),
+(7,'mobile',104),
+(8,'pastha',102);
+
+insert into product values(1,'tshirt',105);
+insert into product values(9,'lap',104);
+
+delete from category where cid = 100;
+delete from product where cid = 101;
+
+update category set cid=105 where cid=100;
+update product set cid = 103 where pid =3;
