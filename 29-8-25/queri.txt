@@ -1,0 +1,27 @@
+show databases;
+use placement;
+show tables;
+
+select * from category1;
+select * from product1;
+
+## --USING CROSS JOIN  --
+select * from category1 as c cross join product1 ;
+
+## --USING INNER JOIN  --
+select * from category1 as c inner join product1 as p on (c.cid = p.cid);
+
+## --USING OUTER JOIN  --
+select * from category1 as c full outer join product1 as p on (c.cid = p.cid); ## not works for this version
+
+## --USING RIGHT JOIN  --
+select * from category1 as c right join product1 as p on (c.cid = p.cid);
+
+## --USING LEFT JOIN  --
+select * from category1 as c left join product1 as p on (c.cid = p.cid);
+
+## --USING NATURAL JOIN  --
+select * from category1 as c natural join product1 as p ;
+
+desc category1;
+desc product1;
