@@ -1,0 +1,24 @@
+package nov21;
+import java.util.Scanner;
+
+public class exceptionhandling {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		try{
+			System.out.print("Enter a number:");
+			int a = sc.nextInt();
+		}
+		catch(Exception e){
+			System.out.println("error please enter a number ");
+		}
+		
+		finally{
+			System.out.println("thanks for your input");
+		}
+
+	}
+
+}

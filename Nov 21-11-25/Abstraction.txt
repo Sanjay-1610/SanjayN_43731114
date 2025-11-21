@@ -1,0 +1,56 @@
+package nov21;
+
+public class abstraction {
+
+	public static void main(String[] args) {
+
+		phonepee n= new phonepee();
+		n.accountbalance();
+		n.transhist();
+		
+		son i=new son();
+		i.sign();
+	}
+
+}
+
+// using abstract 
+
+
+abstract class SBI{
+	private void userinfo(){
+		System.out.println("secret");
+	}
+	
+	abstract void accountbalance();
+	abstract void transhist();
+}
+
+class phonepee extends SBI{
+	
+	void accountbalance(){
+		System.out.println("1300000");
+	}
+	
+	void transhist(){
+		System.out.println("last transaction : 1300000 to tamil ");
+	}
+	
+}
+
+
+// using interface
+
+interface father {
+	void sign();
+}
+
+interface mother {
+	void sign();
+}
+
+class son implements father,mother{
+	public void sign(){
+		System.out.println("child sign");
+	}
+}

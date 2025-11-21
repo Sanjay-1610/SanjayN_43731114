@@ -1,0 +1,27 @@
+package nov21;
+
+public class constructor {
+
+	public static void main(String[] args) {
+		
+		calculators n=new calculators();
+		calculators n1=new calculators(2);
+		calculators n2=new calculators(1,2);
+
+	}
+
+}
+
+class calculators{
+	calculators(){
+		System.out.println("default constructor");
+	}
+	
+	calculators(int a){
+		System.out.println("constructor"+ (a));
+	}
+	
+	calculators(int a , int b){
+		System.out.println("constructor" + (a+b));
+	}
+}

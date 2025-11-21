@@ -1,0 +1,67 @@
+//Method Overriding Program
+
+
+package nov21;
+
+public class overriding {
+
+	public static void main(String[] args) {
+		overriding obj = new overriding();
+		son s= obj.new son();
+		s.duke();
+
+	}
+	class grandfather{
+		void duke()
+		{
+			System.out.println("thatha bike 2000");
+		}
+	}
+	
+	class father{
+		void duke()
+		{
+			System.out.println("thagapan bike 2010");
+		}
+	}
+	
+	class son{
+		void duke()
+		{
+			System.out.println("pullaw bike 2023");
+		}
+	}
+
+}
+
+_________________________________________________________________
+
+// Method Overloading Program
+
+
+package nov21;
+
+public class overload {
+
+	public static void main(String[] args) {
+		
+		calculator i = new calculator();
+		i.add(9.0,2);
+		i.add(4,2);
+		i.add(2,7.2);
+
+	}
+
+}
+
+class calculator{
+	void add(int a, int b){
+		System.out.println("first result" + (a + b));
+	}
+	void add(double a, int b){
+		System.out.println("second result" + (a + b));
+	}
+	void add(int a, double b){
+		System.out.println("third result" + (a + b));
+	}
+}

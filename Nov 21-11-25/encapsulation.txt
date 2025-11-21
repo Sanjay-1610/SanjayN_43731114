@@ -1,0 +1,43 @@
+package nov21;
+
+public class encapsulation {
+
+	public static void main(String[] args) {
+		
+		navi n=new navi();
+		n.getbalance();
+		n.getmail();
+
+	}
+
+}
+
+class IOB{
+	private String name = "Sanjay";
+	private long Account_balance = 526515445;
+	private String mailid = "sanjay@gmail.com";
+	public String getMailid() {
+		return mailid;
+	}
+	public void setMailid(String mailid) {
+		this.mailid = mailid;
+	}
+	public String getName() {
+		return name;
+	}
+	public long getAccount_balance() {
+		return Account_balance;
+	}
+}
+
+class navi extends IOB{
+	void getbalance(){
+		System.out.println("Account balance:" + getAccount_balance());
+	}
+	
+	void getmail(){
+		System.out.println("Current Mail:" + getMailid());
+		setMailid("me@gmail.com");
+		System.out.println("Updated Mail:" + getMailid());
+	}
+}
