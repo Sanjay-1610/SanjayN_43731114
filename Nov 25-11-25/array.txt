@@ -1,0 +1,87 @@
+package nov25;
+
+public class string {
+
+	public static void main(String[] args) {
+
+		String s = "sathyabama";
+		
+		//concat
+		s.concat("College");
+		
+		
+		//append
+		StringBuffer s1 = new StringBuffer("sathyabama");
+		s1.append("College");
+		
+		StringBuilder s2 = new StringBuilder("sathyabama");
+		s2.append("College");
+		
+		System.out.println(s);
+		System.out.println(s1);
+		System.out.println(s2);
+		
+		//trim space at begining
+		String a = "    hello";
+		System.out.println(a);
+		System.out.println(a.trim());
+
+		
+		//upper to lower case
+		System.out.println(a.toUpperCase());
+		System.out.println(a.toLowerCase());
+		
+		
+		//start and end of strings
+		System.out.println(s.startsWith("sa"));
+		System.out.println(s.endsWith("N"));
+		
+		
+		//getting character through index
+		System.out.println(s.charAt(0));
+		System.out.println(s.charAt(6));
+		
+		//prints length of string
+		System.out.println(s.length());
+		
+		
+		//change value to string
+		int b=10;  
+		String r=String.valueOf(b);  
+		System.out.println(r+10);  
+		
+		//replacing words
+		String s3="Java is a programming language. Java is a platform. Java is an Island.";
+		String replaceString=s3.replace("Java","Python");
+		System.out.println(replaceString);    
+		
+		
+		//checking equality
+		StringBuilder s4=new StringBuilder("sathyabama"); 
+		System.out.println(s.equals(s4));
+		
+		StringBuilder s5=new StringBuilder("sathyabama"); 
+		System.out.println(s.equals(s5));
+		
+		if(s5==s4){
+			System.out.println(true);
+		}
+		else{
+			System.out.println("8698");
+		}
+		
+		
+		//compare
+		String s6="sanjay";
+		String s7="sanjay";
+		String s8="sathyabama";
+		System.out.println(s7.compareTo(s8));
+		
+		//replace all
+		String replaceString1=s3.replaceAll("a","e");
+		System.out.println(replaceString1);  
+
+
+	}
+
+}
