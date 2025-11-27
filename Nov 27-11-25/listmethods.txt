@@ -1,0 +1,57 @@
+package nov27;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class listmethods {
+
+	public static void main(String[] args) {
+		ArrayList list = new ArrayList<>();
+		list.add("sanjay");
+		list.add(1);
+		list.add('s');
+		list.add(-1);
+		list.add(0.5);
+		list.add(true);
+		list.add(null);
+
+		Iterator itr = list.iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		
+		 ArrayList list1=new ArrayList<>();  
+         list1.add("John");  
+         list1.add("Rahul");
+         
+         
+         //Adding second list elements to the first list at specific position  
+         
+         list.addAll(1, list1);  
+         System.out.println("After invoking addAll(int index, Collection<? extends E> c) method: "+list);  
+         
+    
+         list.remove("John");  
+         System.out.println("After invoking remove(object) method: "+list);   
+         //Removing element on the basis of specific position  
+         list.remove(0);  
+         System.out.println("After invoking remove(index) method: "+list);   
+         
+         
+         list.removeAll(list1);  
+         System.out.println("After invoking removeAll() method: "+list);   
+
+
+         list.addAll(list1);
+         
+         
+         System.out.println(list);
+         System.out.println(list1);
+         list.retainAll(list1);  
+  
+         System.out.println("iterating the elements after retaining the elements of al2" + list);  
+ 
+         System.out.println("Is ArrayList Empty: "+list.isEmpty()); 
+	}
+
+}

@@ -1,0 +1,47 @@
+package nov27;
+
+import java.util.ArrayList;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class arraylinkedlists {
+
+	public static void main(String[] args) {
+
+		long startTime = System.currentTimeMillis();
+
+		ArrayList list = new ArrayList<>();
+		list.add("sanjay");
+		list.add(1);
+		list.add('s');
+		list.add(-1);
+		list.add(0.5);
+		list.add(true);
+		list.add(null);
+
+		Iterator itr = list.iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		System.out.println("Time taken by ArrayList: " + (System.currentTimeMillis() - startTime) + "ms");
+		System.out.println("--------");
+
+		startTime = System.currentTimeMillis();
+
+		LinkedList ll = new LinkedList<>();
+		ll.add(1);
+		ll.add(0.4);
+		ll.add(null);
+		ll.add(true);
+		ll.add(false);
+
+		Iterator itl = ll.iterator();
+		while (itl.hasNext()) {
+			System.out.println(itl.next());
+
+		}
+		System.out.println("Time taken by LinkedList: " + (System.currentTimeMillis() - startTime) + "ms");
+
+	}
+}
