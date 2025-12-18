@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transport List | Unified Travel System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-gradient: linear-gradient(to right, #ff9966, #ff5e62);
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-nav: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --sky-bg: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-bg);
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(8px);
+            animation: float 25s infinite linear;
+            z-index: -1;
+        }
+        .cloud:nth-child(1) { width: 200px; height: 200px; top: 15%; left: -10%; animation-duration: 35s; }
+        .cloud:nth-child(2) { width: 300px; height: 300px; top: 40%; right: -10%; animation-duration: 45s; animation-direction: reverse; }
+        .cloud:nth-child(3) { width: 150px; height: 150px; bottom: 5%; left: 20%; animation-duration: 30s; opacity: 0.4; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Glass Navbar */
+        .navbar {
+            background: var(--glass-nav);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .navbar a:hover { color: #ff5e62; }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h2.page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 32px;
+        }
+
+        /* Search Box */
+        .search-box {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.6);
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: #a1c4fd;
+            box-shadow: 0 0 0 4px rgba(161, 196, 253, 0.2);
+        }
+
+        .search-box button {
+            padding: 15px 30px;
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+        }
+
+        /* Table Styling */
+        .table-container {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 20px;
+            text-align: left;
+            border-bottom: 2px solid #edf2f7;
+        }
+
+        table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        table tbody tr {
+            transition: background-color 0.3s;
+        }
+        table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Highlight specific columns */
+        table td:first-child { font-weight: 600; color: var(--text-dark); } /* Type */
+        table td:nth-child(5) { font-weight: 600; color: #2d3748; } /* Price */
+
+        /* Action Button */
+        .book-btn {
+            padding: 10px 24px;
+            background: var(--button-gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 94, 98, 0.2);
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 94, 98, 0.3);
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="navbar">
+        <h2>MakeTrip</h2>
+        <div>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/hotels}">Hotels</a>
+            <a th:href="@{/food}">Food</a>
+            <a th:href="@{/bookings}">My Bookings</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="page-title">Available Transport</h2>
+
+        <div class="search-box">
+            <form th:action="@{/transport}" method="get">
+                <input type="text" name="source" placeholder="From (Source)" required>
+                <input type="text" name="destination" placeholder="To (Destination)" required>
+                <button type="submit">Find Trips</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Departure</th>
+                        <th>Price</th>
+                        <th>Seats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="transport : ${transports}">
+                        <td th:text="${transport.type}">Flight</td>
+                        <td th:text="${transport.source}">NYC</td>
+                        <td th:text="${transport.destination}">LON</td>
+                        <td th:text="${transport.departureTime}">10:00 AM</td>
+                        <td th:text="'₹' + ${transport.price}">₹5000</td>
+                        <td th:text="${transport.availableSeats}">20</td>
+                        <td>
+                            <a th:href="@{/transport/book(transportId=${transport.transportId})}" class="book-btn">Book Now</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${transports == null or transports.empty}">
+                        <td colspan="7" style="text-align: center; padding: 40px;">
+                            No transport options found. Try searching for a different route.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

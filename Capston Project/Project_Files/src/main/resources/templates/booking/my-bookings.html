@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings | Unified Travel System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-gradient: linear-gradient(to right, #ff9966, #ff5e62);
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-nav: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --sky-bg: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            --status-bg: rgba(72, 187, 120, 0.15);
+            --status-text: #2f855a;
+            --status-cancel-bg: rgba(245, 101, 101, 0.15);
+            --status-cancel-text: #c53030;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-bg);
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(8px);
+            animation: float 25s infinite linear;
+            z-index: -1;
+        }
+
+        .cloud:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 15%;
+            left: -10%;
+            animation-duration: 35s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            top: 40%;
+            right: -10%;
+            animation-duration: 45s;
+            animation-direction: reverse;
+        }
+
+        .cloud:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 5%;
+            left: 20%;
+            animation-duration: 30s;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, 20px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* Glass Navbar */
+        .navbar {
+            background: var(--glass-nav);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #ff5e62;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h2.page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 32px;
+        }
+
+        /* Glass Table Container */
+        .table-container {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 20px;
+            text-align: left;
+            border-bottom: 2px solid #edf2f7;
+            font-size: 15px;
+        }
+
+        table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            color: var(--text-light);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        table tbody tr {
+            transition: background-color 0.3s;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Badge for Status */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--status-bg);
+            color: var(--status-text);
+            display: inline-block;
+        }
+
+        .status-badge.cancelled {
+            background: var(--status-cancel-bg);
+            color: var(--status-cancel-text);
+        }
+
+        /* Specific Columns */
+        table td:nth-child(1) {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        /* Ref ID */
+        table td:nth-child(2) {
+            color: #ff5e62;
+            font-weight: 500;
+        }
+
+        /* Type */
+
+        /* Empty State */
+        .empty-state {
+            background: var(--glass-white);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--button-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .empty-state a:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="navbar">
+        <h2>MakeTrip</h2>
+        <div>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/transport}">Transport</a>
+            <a th:href="@{/hotels}">Hotels</a>
+            <a th:href="@{/food}">Food</a>
+            <a th:href="@{/bookings}" style="color: #ff5e62;">My Bookings</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="page-title">Your Journey History</h2>
+
+        <div class="table-container" th:if="${not #lists.isEmpty(bookings)}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reference ID</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bookings}">
+                        <td th:text="${b.referenceId}">REF123</td>
+                        <td th:text="${b.bookingType}">Flight</td>
+                        <td th:text="${b.date}">2023-10-10</td>
+                        <td>
+                            <span class="status-badge" th:classappend="${b.status == 'CANCELLED' ? ' cancelled' : ''}"
+                                th:text="${b.status}">Confirmed</span>
+                            <div th:if="${b.status == 'CANCELLED' and b.cancellationReason != null}"
+                                style="font-size: 12px; color: #718096; margin-top: 5px;">
+                                <span style="font-weight: 600;">Reason:</span> <span
+                                    th:text="${b.cancellationReason}">Reason</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${#lists.isEmpty(bookings)}" class="empty-state">
+            <p>You haven't made any bookings yet.</p>
+            <a th:href="@{/}">Start Exploring</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

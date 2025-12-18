@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Transport | Unified Travel System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-gradient: linear-gradient(to right, #ff9966, #ff5e62);
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-nav: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --sky-bg: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-bg);
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(8px);
+            animation: float 25s infinite linear;
+            z-index: -1;
+        }
+
+        .cloud:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 15%;
+            left: -10%;
+            animation-duration: 35s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            top: 40%;
+            right: -10%;
+            animation-duration: 45s;
+            animation-direction: reverse;
+        }
+
+        .cloud:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 5%;
+            left: 20%;
+            animation-duration: 30s;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, 20px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--glass-nav);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #ff5e62;
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        h2.page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 26px;
+        }
+
+        .ticket-card {
+            background: rgba(247, 250, 252, 0.6);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px dashed #cbd5e0;
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .arrow {
+            color: #ff5e62;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff5e62;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e0;
+        }
+
+        /* Form */
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #a1c4fd;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 25px;
+            background: var(--button-gradient);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 94, 98, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        .error-msg {
+            text-align: center;
+            color: #e53e3e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="navbar">
+        <h2>MakeTrip</h2>
+        <div>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/transport}">Transport</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div th:if="${transport != null}">
+            <h2 class="page-title">Finalize Booking</h2>
+
+            <div th:if="${param.error}" class="error-msg" style="margin-bottom: 20px;">
+                <p th:if="${param.error[0] == 'outofstock'}">Not enough seats available for your booking.</p>
+            </div>
+
+            <div class="ticket-card">
+                <div class="route-header">
+                    <span th:text="${transport.source}">SRC</span>
+                    <span class="arrow">✈</span>
+                    <span th:text="${transport.destination}">DST</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Mode</span>
+                    <span class="info-value" th:text="${transport.type}">Bus/Flight</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Departure</span>
+                    <span class="info-value" th:text="${transport.departureTime}">00:00</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Seats Left</span>
+                    <span class="info-value"
+                        th:text="${transport.availableSeats > 0 ? transport.availableSeats : 0}">0</span>
+                </div>
+
+                <div class="price-tag">
+                    ₹<span th:text="${transport.price}">0</span>
+                </div>
+            </div>
+
+            <div th:if="${transport.availableSeats <= 0}" class="error-msg">
+                <p style="margin: 0;">Sorry, this trip is fully booked.</p>
+            </div>
+
+            <form th:if="${transport.availableSeats > 0}" th:action="@{/transport/book}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <input type="hidden" name="transportId" th:value="${transport.transportId}">
+
+                <label>Number of Passengers</label>
+                <input type="number" name="seats" min="1" th:max="${transport.availableSeats}" placeholder="1" required>
+
+                <button type="submit">Confirm & Pay</button>
+            </form>
+
+            <button th:if="${transport.availableSeats <= 0}" disabled
+                style="background: grey; cursor: not-allowed; opacity: 0.7;">Fully Booked</button>
+        </div>
+
+        <div th:if="${transport == null}" class="error-msg">
+            <h3>Error Loading Booking Details</h3>
+            <p>No transport selected. Please go back and select a trip.</p>
+            <a th:href="@{/transport}" style="color: #ff5e62;">Back to Transport</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

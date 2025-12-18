@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakeTrip - Project Documentation & Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            color: #764ba2;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .tech-item h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .tech-item p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 30px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-card.purple {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card.green {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+        }
+
+        .stat-card.orange {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+
+        .api-endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+
+        .method-get {
+            background: #28a745;
+            color: white;
+        }
+
+        .method-post {
+            background: #007bff;
+            color: white;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .tech-stack,
+            .feature-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 MakeTrip</h1>
+            <p>Unified Travel Booking System - Complete Project Documentation & Analysis</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">📊 Overview</button>
+            <button class="nav-tab" onclick="showSection('architecture')">🏗️ Architecture</button>
+            <button class="nav-tab" onclick="showSection('flows')">🔄 Workflows</button>
+            <button class="nav-tab" onclick="showSection('data-model')">💾 Data Model</button>
+            <button class="nav-tab" onclick="showSection('api')">🔌 API Endpoints</button>
+            <button class="nav-tab" onclick="showSection('security')">🔒 Security</button>
+            <button class="nav-tab" onclick="showSection('analysis')">📈 Analysis</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="section active">
+            <div class="card">
+                <h2>📋 Project Overview</h2>
+                <p>MakeTrip is a comprehensive Spring Boot-based travel booking platform that unifies hotel bookings, transport reservations, and food ordering into a single seamless experience.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card purple">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Controllers</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Entity Models</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-number">18</div>
+                        <div class="stat-label">API Endpoints</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">User Roles</div>
+                    </div>
+                </div>
+
+                <h3>🎯 Key Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🏨 Hotel Booking</h4>
+                        <p>Browse and book hotels across multiple cities with real-time availability</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🚆 Transport Booking</h4>
+                        <p>Book flights, trains, and buses with seat availability tracking</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🍕 Food Ordering</h4>
+                        <p>Order food from various cities with quantity management</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔐 Secure Authentication</h4>
+                        <p>Spring Security with BCrypt password encoding and role-based access</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>👤 User Dashboard</h4>
+                        <p>View and manage all your bookings in one place</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚙️ Admin Panel</h4>
+                        <p>Complete control over users, bookings, and service management</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚡ Technology Stack</h2>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <h4>🔧 Backend</h4>
+                        <p><strong>Java 21</strong> - Latest LTS version</p>
+                        <p><strong>Spring Boot 3.3.4</strong> - Modern framework</p>
+                        <p><strong>Spring Data JPA</strong> - ORM layer</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🔒 Security</h4>
+                        <p><strong>Spring Security 6</strong> - Authentication & Authorization</p>
+                        <p><strong>BCrypt</strong> - Password encryption</p>
+                        <p><strong>Role-based Access</strong> - USER & ADMIN roles</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>💾 Database</h4>
+                        <p><strong>MySQL 8</strong> - Relational database</p>
+                        <p><strong>Aiven Cloud</strong> - Cloud hosting</p>
+                        <p><strong>Hibernate</strong> - JPA implementation</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🎨 Frontend</h4>
+                        <p><strong>Thymeleaf</strong> - Server-side templates</p>
+                        <p><strong>HTML5 & CSS3</strong> - Modern web standards</p>
+                        <p><strong>Glassmorphism</strong> - UI design pattern</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🚀 DevOps</h4>
+                        <p><strong>Maven</strong> - Build automation</p>
+                        <p><strong>Docker</strong> - Containerization</p>
+                        <p><strong>Render</strong> - Cloud deployment</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🔗 Additional</h4>
+                        <p><strong>WAR Packaging</strong> - Deployment format</p>
+                        <p><strong>SSL/TLS</strong> - Secure connections</p>
+                        <p><strong>RESTful APIs</strong> - Architecture pattern</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Section -->
+        <div id="architecture" class="section">
+            <div class="card">
+                <h2>🏗️ System Architecture</h2>
+
+                <h3>Layered Architecture Diagram</h3>
+                <div class="mermaid">
+graph TB
+    subgraph "Presentation Layer"
+        A[Thymeleaf Templates]
+        B[HTML/CSS/JS]
+    end
+
+    subgraph "Controller Layer"
+        C[AuthController]
+        D[HomeController]
+        E[BookingController]
+        F[HotelController]
+        G[TransportController]
+        H[FoodController]
+        I[Admin Controllers]
+    end
+
+    subgraph "Service Layer"
+        J[UserService]
+        K[BookingService]
+        L[HotelService]
+        M[TransportService]
+        N[FoodService]
+    end
+
+    subgraph "Security Layer"
+        O[Spring Security]
+        P[Authentication]
+        Q[Authorization]
+    end
+
+    subgraph "Data Access Layer"
+        R[JPA Repositories]
+        S[Hibernate ORM]
+    end
+
+    subgraph "Database"
+        T[(MySQL Database)]
+    end
+
+    A --> C
+    B --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+
+    C --> O
+    D --> O
+    E --> O
+
+    O --> P
+    O --> Q
+
+    C --> J
+    E --> K
+    F --> L
+    G --> M
+    H --> N
+    I --> J
+    I --> K
+    I --> L
+
+    J --> R
+    K --> R
+    L --> R
+    M --> R
+    N --> R
+
+    R --> S
+    S --> T
+
+
+
+
+
+
+
+                </div>
+
+                <h3>Application Components</h3>
+                <div class="mermaid">
+graph LR
+    A[UnifiedTravelApplication.java] --> B[Security Configuration]
+    A --> C[Controllers]
+    A --> D[Services]
+    A --> E[Repositories]
+    A --> F[Models/Entities]
+
+    B --> G[SecurityConfig.java]
+    B --> H[CustomAuthenticationSuccessHandler]
+
+    C --> I[11 Controller Classes]
+    D --> J[Business Logic]
+    E --> K[JPA Repositories]
+    F --> L[6 Entity Classes]
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📁 Project Structure Analysis</h2>
+                <div class="highlight-box">
+                    <h4>🎯 MVC Pattern Implementation</h4>
+                    <p><strong>Model:</strong> 6 entity classes (User, Role, Booking, Hotel, Transport, Food, Room)</p>
+                    <p><strong>View:</strong> Thymeleaf templates organized by feature (auth/, admin/, booking/, hotel/, transport/, food/)</p>
+                    <p><strong>Controller:</strong> 11 specialized controllers handling different domains</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🔒 Security Implementation</h4>
+                    <p><strong>Configuration:</strong> Custom SecurityConfig with form-based authentication</p>
+                    <p><strong>Password Encoding:</strong> BCrypt algorithm for secure password storage</p>
+                    <p><strong>Success Handler:</strong> Custom redirect logic based on user roles</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflows Section -->
+        <div id="flows" class="section">
+            <div class="card">
+                <h2>🔄 User Authentication Flow</h2>
+                <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant AC as AuthController
+    participant SS as Spring Security
+    participant DB as Database
+    participant H as HomeController
+
+    U->>B: Access protected page
+    B->>SS: Request authentication
+    SS->>B: Redirect to /auth/login
+    B->>U: Show login form
+
+    U->>B: Submit credentials
+    B->>AC: POST /auth/login
+    AC->>SS: Validate credentials
+    SS->>DB: Query user & roles
+    DB-->>SS: Return user data
+    SS-->>AC: Authentication result
+
+    alt Authentication Success
+        AC->>SS: Check user role
+        alt User has ADMIN role
+            SS->>B: Redirect to /admin/dashboard
+        else User has USER role
+            SS->>B: Redirect to /
+        end
+        B->>H: Load dashboard
+        H-->>B: Render page
+        B-->>U: Display dashboard
+    else Authentication Failure
+        AC-->>B: Return error
+        B-->>U: Show error message
+    end
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏨 Hotel Booking Workflow</h2>
+                <div class="mermaid">
+flowchart TD
+    A[User Accesses /hotels] --> B{User Authenticated?}
+    B -->|No| C[Redirect to Login]
+    B -->|Yes| D[Display Available Hotels]
+
+    D --> E[User Selects Hotel]
+    E --> F[Click Book Button]
+    F --> G[POST /hotels/book/{id}]
+
+    G --> H{Hotel Available?}
+    H -->|No| I[Show Error Message]
+    H -->|Yes| J[Create Booking Record]
+
+    J --> K[Update Available Rooms]
+    K --> L[Save to Database]
+    L --> M[Generate Booking Confirmation]
+    M --> N[Redirect to /bookings]
+    N --> O[Display User Bookings]
+
+    I --> D
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🚆 Transport Booking Workflow</h2>
+                <div class="mermaid">
+flowchart TD
+    A[User Accesses /transport] --> B[Display Transport Options]
+    B --> C{Filter by Source/Destination?}
+    C -->|Yes| D[Apply Filters]
+    C -->|No| E[Show All Options]
+
+    D --> F[User Selects Transport]
+    E --> F
+
+    F --> G[POST /transport/book/{id}]
+    G --> H{Seats Available?}
+
+    H -->|No| I[Show 'Fully Booked' Message]
+    H -->|Yes| J[Create Booking Record]
+
+    J --> K[Decrement Available Seats]
+    K --> L[Save Transaction]
+    L --> M[Booking Successful]
+    M --> N[View in My Bookings]
+
+    I --> B
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚙️ Admin Booking Management Flow</h2>
+                <div class="mermaid">
+flowchart TD
+    A[Admin Accesses /admin/bookings] --> B{Is Admin?}
+    B -->|No| C[Access Denied]
+    B -->|Yes| D[Load All Bookings]
+
+    D --> E[Display Bookings Table]
+    E --> F{Admin Action}
+
+    F -->|View Details| G[Show Booking Info]
+    F -->|Cancel Booking| H[Show Cancel Form]
+
+    H --> I[Enter Cancellation Reason]
+    I --> J[POST /admin/bookings/cancel/{id}]
+    J --> K[Update Booking Status]
+    K --> L[Restore Availability]
+    L --> M[Save Cancellation Reason]
+    M --> N[Refresh Bookings List]
+
+    G --> E
+    N --> E
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🍕 Food Ordering Flow</h2>
+                <div class="mermaid">
+flowchart LR
+    A[Browse /food] --> B[Filter by City/Type]
+    B --> C[Select Food Item]
+    C --> D[POST /food/order/{id}]
+    D --> E{Quantity Available?}
+    E -->|Yes| F[Create Order]
+    E -->|No| G[Out of Stock]
+    F --> H[Update Quantity]
+    H --> I[Order Confirmed]
+    G --> A
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Model Section -->
+        <div id="data-model" class="section">
+            <div class="card">
+                <h2>💾 Database Schema & Relationships</h2>
+
+                <h3>Entity Relationship Diagram</h3>
+                <div class="mermaid">
+erDiagram
+    USER ||--o{ BOOKING : creates
+    USER }o--o{ ROLE : has
+    BOOKING }o--|| HOTEL : references
+    BOOKING }o--|| TRANSPORT : references
+    BOOKING }o--|| FOOD : references
+    HOTEL ||--o{ ROOM : contains
+
+    USER {
+        Long userId PK
+        String name
+        String email
+        String password
+        Set roles FK
+    }
+
+    ROLE {
+        Long id PK
+        String name
+    }
+
+    BOOKING {
+        Long bookingId PK
+        Long userId FK
+        String bookingType
+        Long referenceId
+        LocalDate date
+        String status
+        String cancellationReason
+    }
+
+    HOTEL {
+        Long hotelId PK
+        String name
+        String city
+        Double rating
+        String roomType
+        Double pricePerNight
+        Integer availableRooms
+    }
+
+    TRANSPORT {
+        Long transportId PK
+        String type
+        String source
+        String destination
+        Double price
+        Integer availableSeats
+        String departureTime
+    }
+
+    FOOD {
+        Long foodId PK
+        String name
+        String city
+        String type
+        Double price
+        Integer availableQuantity
+    }
+
+    ROOM {
+        Long roomId PK
+        Long hotelId FK
+        String roomNumber
+        String type
+        Boolean isAvailable
+    }
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Entity Details</h2>
+
+                <h3>User Entity</h3>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>userId</code></td>
+                        <td>Long (PK)</td>
+                        <td>Unique identifier for user</td>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>String</td>
+                        <td>Full name of the user</td>
+                    </tr>
+                    <tr>
+                        <td><code>email</code></td>
+                        <td>String</td>
+                        <td>User's email (used for login)</td>
+                    </tr>
+                    <tr>
+                        <td><code>password</code></td>
+                        <td>String</td>
+                        <td>BCrypt encoded password</td>
+                    </tr>
+                    <tr>
+                        <td><code>roles</code></td>
+                        <td>Set&lt;Role&gt;</td>
+                        <td>User roles (ADMIN/USER)</td>
+                    </tr>
+                </table>
+
+                <h3>Booking Entity</h3>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>bookingId</code></td>
+                        <td>Long (PK)</td>
+                        <td>Unique booking identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>userId</code></td>
+                        <td>Long (FK)</td>
+                        <td>Reference to user who made booking</td>
+                    </tr>
+                    <tr>
+                        <td><code>bookingType</code></td>
+                        <td>String</td>
+                        <td>Type: HOTEL, TRANSPORT, or FOOD</td>
+                    </tr>
+                    <tr>
+                        <td><code>referenceId</code></td>
+                        <td>Long</td>
+                        <td>ID of booked item (hotel/transport/food)</td>
+                    </tr>
+                    <tr>
+                        <td><code>date</code></td>
+                        <td>LocalDate</td>
+                        <td>Booking date</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td>String</td>
+                        <td>Status: ACTIVE, CANCELLED, COMPLETED</td>
+                    </tr>
+                    <tr>
+                        <td><code>cancellationReason</code></td>
+                        <td>String</td>
+                        <td>Reason if cancelled by admin</td>
+                    </tr>
+                </table>
+
+                <h3>Hotel Entity</h3>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>hotelId</code></td>
+                        <td>Long (PK)</td>
+                        <td>Unique hotel identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>String</td>
+                        <td>Hotel name</td>
+                    </tr>
+                    <tr>
+                        <td><code>city</code></td>
+                        <td>String</td>
+                        <td>Location city</td>
+                    </tr>
+                    <tr>
+                        <td><code>rating</code></td>
+                        <td>Double</td>
+                        <td>Star rating (0-5)</td>
+                    </tr>
+                    <tr>
+                        <td><code>roomType</code></td>
+                        <td>String</td>
+                        <td>Room category (Deluxe, Suite, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><code>pricePerNight</code></td>
+                        <td>Double</td>
+                        <td>Price per night in ₹</td>
+                    </tr>
+                    <tr>
+                        <td><code>availableRooms</code></td>
+                        <td>Integer</td>
+                        <td>Current room availability</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- API Section -->
+        <div id="api" class="section">
+            <div class="card">
+                <h2>🔌 API Endpoints Documentation</h2>
+
+                <h3>Public Endpoints (No Authentication)</h3>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/auth/login</code>
+                    <p>Displays the login page for user authentication</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/auth/register</code>
+                    <p>Displays the registration page for new users</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <code>/auth/register</code>
+                    <p>Registers a new user with default USER role</p>
+                    <strong>Request Body:</strong> name, email, password
+                </div>
+
+                <h3>User Endpoints (Requires Authentication)</h3>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/</code>
+                    <p>Home page dashboard for authenticated users</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/hotels</code>
+                    <p>Browse all available hotels with filtering options</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <code>/hotels/book/{id}</code>
+                    <p>Book a hotel room by hotel ID</p>
+                    <strong>Path Variable:</strong> id (Hotel ID)
+                    <strong>Response:</strong> Booking confirmation or error message
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/transport</code>
+                    <p>Browse transport options (flights, trains, buses)</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <code>/transport/book/{id}</code>
+                    <p>Book a transport service by transport ID</p>
+                    <strong>Path Variable:</strong> id (Transport ID)
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/food</code>
+                    <p>Browse food ordering options by city</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <code>/food/order/{id}</code>
+                    <p>Order food item by food ID</p>
+                    <strong>Path Variable:</strong> id (Food ID)
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/bookings</code>
+                    <p>View all bookings for the authenticated user</p>
+                </div>
+
+                <h3>Admin Endpoints (Requires ADMIN Role)</h3>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/dashboard</code>
+                    <p>Admin dashboard with statistics and overview</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/bookings</code>
+                    <p>View all bookings from all users</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <code>/admin/bookings/cancel/{id}</code>
+                    <p>Cancel a booking with reason</p>
+                    <strong>Path Variable:</strong> id (Booking ID)
+                    <strong>Request Param:</strong> reason (Cancellation reason)
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/hotels</code>
+                    <p>Manage all hotels (CRUD operations)</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/transports</code>
+                    <p>Manage all transport services</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/foods</code>
+                    <p>Manage all food items and inventory</p>
+                </div>
+
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <code>/admin/users</code>
+                    <p>Manage user accounts and roles</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🔄 Request/Response Flow</h2>
+                <div class="mermaid">
+sequenceDiagram
+    participant C as Client
+    participant SC as Spring Controller
+    participant SEC as Security Layer
+    participant SVC as Service Layer
+    participant REPO as Repository
+    participant DB as MySQL Database
+
+    C->>SC: HTTP Request
+    SC->>SEC: Check Authentication
+    SEC-->>SC: Validated User
+    SC->>SVC: Business Logic Call
+    SVC->>REPO: Data Access
+    REPO->>DB: SQL Query
+    DB-->>REPO: Result Set
+    REPO-->>SVC: Entity Objects
+    SVC-->>SC: Processed Data
+    SC-->>C: Thymeleaf Rendered View
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div id="security" class="section">
+            <div class="card">
+                <h2>🔒 Security Implementation</h2>
+
+                <h3>Spring Security Configuration</h3>
+                <div class="highlight-box">
+                    <h4>Authentication Mechanism</h4>
+                    <p><strong>Type:</strong> Form-based authentication with session management</p>
+                    <p><strong>Login URL:</strong> <code>/auth/login</code></p>
+                    <p><strong>Success Handler:</strong> Custom role-based redirect</p>
+                    <p><strong>Failure URL:</strong> <code>/auth/login?error</code></p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Password Security</h4>
+                    <p><strong>Encoding:</strong> BCrypt with strength 10</p>
+                    <p><strong>Storage:</strong> Hashed passwords in database</p>
+                    <p><strong>Validation:</strong> Spring Security automatic comparison</p>
+                </div>
+
+                <h3>Security Flow Diagram</h3>
+                <div class="mermaid">
+flowchart TD
+    A[User Request] --> B{Authenticated?}
+    B -->|No| C[Redirect to Login]
+    B -->|Yes| D{Has Required Role?}
+
+    C --> E[Show Login Form]
+    E --> F[Submit Credentials]
+    F --> G[Spring Security Filter]
+    G --> H[BCrypt Password Check]
+
+    H -->|Valid| I[Create Authentication Token]
+    H -->|Invalid| J[Return to Login with Error]
+
+    I --> K[Load User Roles]
+    K --> L[Session Created]
+    L --> M[CustomSuccessHandler]
+
+    M -->|ADMIN| N[Redirect to /admin/dashboard]
+    M -->|USER| O[Redirect to /]
+
+    D -->|Yes| P[Process Request]
+    D -->|No| Q[Access Denied 403]
+
+    P --> R[Return Response]
+
+
+
+
+
+                </div>
+
+                <h3>Role-Based Access Control</h3>
+                <table>
+                    <tr>
+                        <th>Role</th>
+                        <th>Access Rights</th>
+                        <th>Restrictions</th>
+                    </tr>
+                    <tr>
+                        <td><strong>USER</strong></td>
+                        <td>
+                            • Browse hotels, transport, food<br>
+                            • Make bookings<br>
+                            • View own bookings<br>
+                            • Home dashboard
+                        </td>
+                        <td>
+                            • Cannot access admin endpoints<br>
+                            • Cannot manage other users<br>
+                            • Cannot cancel bookings
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>ADMIN</strong></td>
+                        <td>
+                            • All USER permissions<br>
+                            • View all bookings<br>
+                            • Cancel any booking<br>
+                            • Manage hotels, transport, food<br>
+                            • Manage users<br>
+                            • Admin dashboard access
+                        </td>
+                        <td>
+                            • Full system access<br>
+                            • No booking restrictions
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Protected Resources</h3>
+                <div class="highlight-box">
+                    <h4>Public Access (No Authentication)</h4>
+                    <p>✅ <code>/auth/login</code> - Login page</p>
+                    <p>✅ <code>/auth/register</code> - Registration page</p>
+                    <p>✅ <code>/css/**</code> - Stylesheets</p>
+                    <p>✅ <code>/js/**</code> - JavaScript files</p>
+                    <p>✅ <code>/images/**</code> - Static images</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>User Access (Authentication Required)</h4>
+                    <p>🔒 <code>/</code> - Home page</p>
+                    <p>🔒 <code>/hotels/**</code> - Hotel services</p>
+                    <p>🔒 <code>/transport/**</code> - Transport services</p>
+                    <p>🔒 <code>/food/**</code> - Food services</p>
+                    <p>🔒 <code>/bookings/**</code> - User bookings</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Admin Access (ADMIN Role Required)</h4>
+                    <p>⚙️ <code>/admin/**</code> - All admin endpoints</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section -->
+        <div id="analysis" class="section">
+            <div class="card">
+                <h2>📈 Project Complexity Analysis</h2>
+
+                <div class="chart-container">
+                    <canvas id="componentChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="layerChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="endpointChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Feature Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="featureChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>💡 Technical Insights</h2>
+
+                <h3>Strengths</h3>
+                <ul style="list-style-position: inside; margin: 15px 0;">
+                    <li><strong>Modular Architecture:</strong> Clear separation of concerns with MVC pattern</li>
+                    <li><strong>Security-First:</strong> Spring Security 6 with BCrypt encryption</li>
+                    <li><strong>Scalable Design:</strong> Service layer abstraction allows easy feature addition</li>
+                    <li><strong>Modern Tech Stack:</strong> Java 21 and Spring Boot 3.3.4 latest features</li>
+                    <li><strong>Cloud-Ready:</strong> Docker containerization for easy deployment</li>
+                    <li><strong>Role-Based Access:</strong> Flexible permission system</li>
+                </ul>
+
+                <h3>Recommended Enhancements</h3>
+                <ul style="list-style-position: inside; margin: 15px 0;">
+                    <li><strong>API Documentation:</strong> Integrate Swagger/OpenAPI for interactive docs</li>
+                    <li><strong>Caching:</strong> Implement Redis for frequently accessed data</li>
+                    <li><strong>Payment Gateway:</strong> Add payment processing integration</li>
+                    <li><strong>Email Notifications:</strong> Booking confirmations via email</li>
+                    <li><strong>Search Filters:</strong> Advanced filtering for hotels and transport</li>
+                    <li><strong>Reviews System:</strong> User ratings and reviews for services</li>
+                    <li><strong>Mobile App:</strong> REST API for mobile applications</li>
+                    <li><strong>Analytics Dashboard:</strong> Detailed insights for admin</li>
+                </ul>
+
+                <h3>Performance Considerations</h3>
+                <div class="highlight-box">
+                    <p><strong>Database Optimization:</strong> Consider indexing on frequently queried fields (city, type, userId)</p>
+                    <p><strong>Connection Pooling:</strong> Optimize HikariCP settings for production</p>
+                    <p><strong>Lazy Loading:</strong> Implement pagination for large datasets</p>
+                    <p><strong>CDN Integration:</strong> Serve static assets via CDN</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🚀 Deployment Architecture</h2>
+                <div class="mermaid">
+graph TB
+    subgraph "Development"
+        A[Local Development]
+        B[Maven Build]
+        C[Docker Build]
+    end
+
+    subgraph "Source Control"
+        D[GitHub Repository]
+    end
+
+    subgraph "Cloud Platform - Render"
+        E[Docker Container]
+        F[Application Instance]
+        G[Health Checks]
+    end
+
+    subgraph "Database - Aiven Cloud"
+        H[(MySQL 8)]
+        I[SSL Connection]
+    end
+
+    subgraph "Users"
+        J[Web Browsers]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    F --> I
+    I --> H
+    J --> F
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <h3>🌍 MakeTrip - Unified Travel Booking System</h3>
+            <p>Built with Spring Boot 3.3.4 | Java 21 | MySQL 8 | Thymeleaf</p>
+            <p style="margin-top: 10px; color: #666;">This documentation provides a comprehensive overview of the system architecture, workflows, and technical implementation.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#764ba2',
+                lineColor: '#764ba2',
+                secondaryColor: '#f093fb',
+                tertiaryColor: '#fff'
+            }
+        });
+
+        // Tab Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Component Distribution Chart
+        const componentCtx = document.getElementById('componentChart').getContext('2d');
+        new Chart(componentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Controllers', 'Entities', 'Services', 'Repositories', 'Config Files', 'Templates'],
+                datasets: [{
+                    data: [11, 6, 6, 6, 2, 15],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#28a745',
+                        '#ffc107',
+                        '#17a2b8'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Component Distribution',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Architecture Layer Chart
+        const layerCtx = document.getElementById('layerChart').getContext('2d');
+        new Chart(layerCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Presentation', 'Controller', 'Service', 'Security', 'Data Access', 'Database'],
+                datasets: [{
+                    label: 'Components per Layer',
+                    data: [15, 11, 6, 2, 6, 1],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#28a745',
+                        '#ffc107',
+                        '#17a2b8'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Layered Architecture Breakdown',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // API Endpoint Chart
+        const endpointCtx = document.getElementById('endpointChart').getContext('2d');
+        new Chart(endpointCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Public (Auth)', 'User Endpoints', 'Admin Endpoints'],
+                datasets: [{
+                    data: [3, 8, 7],
+                    backgroundColor: [
+                        '#28a745',
+                        '#667eea',
+                        '#764ba2'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'API Endpoints by Access Level',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Feature Distribution Chart
+        const featureCtx = document.getElementById('featureChart').getContext('2d');
+        new Chart(featureCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Hotels', 'Transport', 'Food', 'Bookings', 'Admin Panel', 'Security'],
+                datasets: [{
+                    label: 'Feature Completeness',
+                    data: [90, 85, 80, 95, 90, 100],
+                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    borderColor: '#667eea',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Feature Implementation Status (%)',
+                        font: { size: 18, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Stay | Unified Travel System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-gradient: linear-gradient(to right, #ff9966, #ff5e62);
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-nav: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --sky-bg: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-bg);
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Clouds */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(8px);
+            animation: float 25s infinite linear;
+            z-index: -1;
+        }
+
+        .cloud:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 15%;
+            left: -10%;
+            animation-duration: 35s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            top: 40%;
+            right: -10%;
+            animation-duration: 45s;
+            animation-direction: reverse;
+        }
+
+        .cloud:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 5%;
+            left: 20%;
+            animation-duration: 30s;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, 20px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* Glass Navbar */
+        .navbar {
+            background: var(--glass-nav);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #ff5e62;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        h2.page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 26px;
+        }
+
+        /* Hotel Summary Card */
+        .details-card {
+            background: rgba(247, 250, 252, 0.6);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px dashed #cbd5e0;
+        }
+
+        .details-card h3 {
+            margin-top: 0;
+            color: var(--text-dark);
+            font-size: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .price-highlight {
+            color: #ff5e62;
+            font-size: 16px;
+        }
+
+        /* Form Elements */
+        label {
+            font-weight: 500;
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #a1c4fd;
+            box-shadow: 0 0 0 4px rgba(161, 196, 253, 0.2);
+        }
+
+        .date-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .date-group>div {
+            flex: 1;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 30px;
+            background: var(--button-gradient);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 94, 98, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(255, 94, 98, 0.3);
+            filter: brightness(1.05);
+        }
+
+        .error-msg {
+            text-align: center;
+            color: #e53e3e;
+            background: #fff5f5;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="navbar">
+        <h2>MakeTrip</h2>
+        <div>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/hotels}">Hotels</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div th:if="${hotel != null}">
+            <h2 class="page-title">Confirm Your Stay</h2>
+
+            <div th:if="${param.error}" class="error-msg" style="margin-bottom: 20px;">
+                <p th:if="${param.error[0] == 'outofstock'}">Not enough rooms available for your booking.</p>
+            </div>
+
+            <div class="details-card">
+                <h3 th:text="${hotel.name}">Grand Hotel</h3>
+
+                <div class="info-row">
+                    <span class="info-label">Location</span>
+                    <span class="info-value" th:text="${hotel.city}">City Name</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Room Type</span>
+                    <span class="info-value" th:text="${hotel.roomType}">Deluxe</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Availability</span>
+                    <span class="info-value"
+                        th:text="${(hotel.availableRooms > 0 ? hotel.availableRooms : 0) + ' Rooms'}">5 Rooms</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Price per Night</span>
+                    <span class="info-value price-highlight" th:text="'₹' + ${hotel.pricePerNight}">₹2000</span>
+                </div>
+            </div>
+
+            <div th:if="${hotel.availableRooms <= 0}" class="error-msg">
+                <p style="margin: 0;">Sorry, this hotel is currently fully booked.</p>
+            </div>
+
+            <form th:if="${hotel.availableRooms > 0}" th:action="@{/hotels/book}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <input type="hidden" name="hotelId" th:value="${hotel.hotelId}">
+
+                <div class="date-group">
+                    <div>
+                        <label>Check-in Date</label>
+                        <input type="date" name="checkIn" required>
+                    </div>
+                    <div>
+                        <label>Check-out Date</label>
+                        <input type="date" name="checkOut" required>
+                    </div>
+                </div>
+
+                <label>Number of Rooms</label>
+                <input type="number" name="rooms" min="1" th:max="${hotel.availableRooms}" placeholder="1" required>
+
+                <button type="submit">Complete Booking</button>
+            </form>
+
+            <button th:if="${hotel.availableRooms <= 0}" disabled
+                style="background: grey; cursor: not-allowed; opacity: 0.7;">No Rooms Available</button>
+        </div>
+
+        <div th:if="${hotel == null}" class="error-msg">
+            <p>Error: Hotel details could not be loaded.</p>
+            <a th:href="@{/hotels}" style="color: #ff5e62; font-weight: 600;">Return to Hotels List</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

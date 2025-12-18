@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | Unified Travel System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-gradient: linear-gradient(to right, #ff9966, #ff5e62);
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-nav: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --sky-bg: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Clouds Background */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(8px);
+            animation: float 25s infinite linear;
+            z-index: -1;
+        }
+
+        .cloud:nth-child(1) { width: 200px; height: 200px; top: 15%; left: -10%; animation-duration: 35s; }
+        .cloud:nth-child(2) { width: 300px; height: 300px; top: 40%; right: -10%; animation-duration: 45s; animation-direction: reverse; }
+        .cloud:nth-child(3) { width: 150px; height: 150px; bottom: 5%; left: 20%; animation-duration: 30s; opacity: 0.4; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Glass Navbar */
+        .navbar {
+            background: var(--glass-nav);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: #ff5e62;
+        }
+
+        /* Active/Hover underline effect */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--button-gradient);
+            transition: width 0.3s;
+        }
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .container {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            line-height: 1.6;
+        }
+
+        /* Cards Layout */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 10px;
+        }
+
+        /* Glass Cards */
+        .card {
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card Icons */
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card h3 {
+            margin: 0 0 15px 0;
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--button-gradient);
+            color: white;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 94, 98, 0.3);
+        }
+
+        .card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 94, 98, 0.4);
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="navbar">
+        <div class="logo">
+            <h2>MakeTrip</h2>
+        </div>
+        <div class="menu">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/transport}">Transport</a>
+            <a th:href="@{/hotels}">Hotels</a>
+            <a th:href="@{/food}">Food</a>
+            <a th:href="@{/bookings}">My Bookings</a>
+            
+            <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/logout}" style="color: #ff5e62;">Logout</a>
+            <a th:if="${!#authorization.expression('isAuthenticated()')}" th:href="@{/auth/login}">Login</a>
+            <a th:if="${!#authorization.expression('isAuthenticated()')}" th:href="@{/auth/register}">Register</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="hero-title">Where to next?</h1>
+        <p class="hero-subtitle">Experience the world with the Unified Travel System. Seamlessly book your journey, stay, and meals all in one place.</p>
+
+        <div class="card-container">
+            <div class="card">
+                <div class="card-icon">✈️</div>
+                <h3>Transport Booking</h3>
+                <p>From flights to trains, find the fastest route to your destination with ease.</p>
+                <a th:href="@{/transport}">Find Tickets</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🏨</div>
+                <h3>Hotel Stays</h3>
+                <p>Discover luxury suites or cozy rooms. Real-time availability at your fingertips.</p>
+                <a th:href="@{/hotels}">Book Rooms</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🍽️</div>
+                <h3>Gourmet Dining</h3>
+                <p>Pre-order your meals for the journey or reserve tables at top rated restaurants.</p>
+                <a th:href="@{/food}">View Menu</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
